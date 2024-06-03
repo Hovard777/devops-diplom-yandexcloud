@@ -53,7 +53,7 @@ ifebres@ifebres-nb:~/github/devops-diplom-yandexcloud/terraform$ yc config set s
 ifebres@ifebres-nb:~/github/devops-diplom-yandexcloud/terraform$ yc config set cloud-id b1grtmm0e3bfv2rf4kiq
 ifebres@ifebres-nb:~/github/devops-diplom-yandexcloud/terraform$ yc config set folder-id b1gd5rvg0g57hu28ajgt
 ```
-7. Как оказалось. надо сменгить версию тераформа на 1.5.х и перед запуском инициализации создать бакет командой
+7. Как оказалось. надо сменить версию тераформа на 1.5.х и перед запуском инициализации создать бакет командой
 ```commandline
 ifebres@ifebres-nb:~/github/devops-diplom-yandexcloud/terraform$ yc storage bucket create --name ifebres-state-bucket
 name: ifebres-state-bucket
@@ -67,3 +67,4 @@ acl: {}
 created_at: "2024-06-03T17:14:59.473294Z"
 
 ```
+после инициализация проходит успешно. тераформ запускаю под токеном от нового sa. надо всё переделать с нуля.
