@@ -1,4 +1,4 @@
 .tfvars
 .hcl
 .terraform/
-../Notes.md
+/Notes.md
