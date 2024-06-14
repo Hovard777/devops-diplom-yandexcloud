@@ -1,0 +1,50 @@
+all:
+  hosts:
+    master-1:
+      ansible_host: 158.160.69.126
+      ansible_user: ifebres
+      ip: 192.168.20.32
+      etcd_member_name: etcd-1
+
+    worker-1:
+      ansible_host: 158.160.33.137
+      ip: 192.168.10.24
+      # access_ip: 158.160.117.200
+      ansible_user: ifebres
+
+    worker-2:
+      ansible_host: 51.250.97.12
+      ip: 192.168.20.23
+      # access_ip: 158.160.52.213
+      ansible_user: ifebres
+
+    worker-3:
+      ansible_host: 158.160.156.165
+      ip: 192.168.30.22
+      # access_ip: 158.160.52.213
+      ansible_user: ifebres
+
+  children:
+    kube_control_plane:
+      hosts:
+        master-1:
+
+    kube_node:
+      hosts:
+        worker-1:
+        worker-2:
+        worker-3:
+
+    kube_ingress:
+      hosts:
+       worker-1:
+
+    etcd:
+      hosts:
+        master-1:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}
