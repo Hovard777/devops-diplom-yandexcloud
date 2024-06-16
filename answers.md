@@ -26,27 +26,29 @@
 ### Создание Kubernetes кластера
 
 #### Установка Kubernetes кластера на ВМ.  
-   Для установки кластера будет использован [Kubespray](https://kubernetes.io/docs/setup/production-environment/tools/kubespray/).  
-   Подготовлены конфигурации [ansible](ansible)  
-   Задеплоен кластер. По инструкции настроен доступ 
+   Для установки кластера будет использован [Kubespray](https://kubernetes.io/docs/setup/production-environment/tools/kubespray/). Заполняем файл  [hosts.yaml](ansible%2Fhosts.yaml) на основании адресов созданной инфраструктуры. 
+   В файле [k8s-cluster.yml](ansible%2Fgroup_vars%2Fk8s_cluster%2Fk8s-cluster.yml) выставляем параметр ```kubeconfig_localhost: true``` для сохранения kubeconfig в каталог ./artifacts
+   Запускаем создание кластера используя [hosts.yaml](ansible%2Fhosts.yaml) в качестве inventory файла. По завершении установки копируем содержимое файла ./artifacts/admin.conf в файл ~/.kube/config, проверяем подключение к кластеру
+    
 ![img.png](img/k8s_cluster.png)
   
 
 ---
 ### Создание тестового приложения
 
-   а. Создан отдельный git репозиторий с простым nginx конфигом https://github.com/Hovard777/diplom-app.  
-   б. Подготовлен Dockerfile для создания образа приложения. 
-   в. Образ отправлен в https://hub.docker.com/  
+   Создадим отдельный git репозиторий с простым nginx конфигом https://github.com/Hovard777/diplom-app.  
+   Подготовим Dockerfile для создания образа приложения. 
+   Отправим образ в https://hub.docker.com/  
 ![img.png](img/dockerhub.png)
 
 
 ---
 ### Подготовка cистемы мониторинга и деплой приложения
 
-Задеплоил систему мониторинга, используя пакет kube-prometheus
+Задеплоил систему мониторинга, используя пакет kube-prometheus. 
+Для настройки доступа к Grafana сконфигурируем service [grafana-service.yaml](monitoring%2Fmanifests%2Fgrafana-service.yaml) и [grafana-networkPolicy.yaml](monitoring%2Fmanifests%2Fgrafana-networkPolicy.yaml)
 ![img.png](img/grafana.png)
-Используя манифест [app.yaml](app%2Fapp.yaml), задеплоил приложение.
+Используя манифест [app.yaml](app%2Fapp.yaml), задеплоил приложение. ```kubectl apply -f  app.yaml```
 ![img.png](img/app.png)
 
 
