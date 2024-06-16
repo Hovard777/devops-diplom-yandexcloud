@@ -55,14 +55,10 @@
 ---
 ### Установка и настройка CI/CD
 
-Осталось настроить ci/cd систему для автоматической сборки docker image и деплоя приложения при изменении кода.
+Воспользуемся Yandex Managed Service for GitLab. Интерфейс доступен по адресу https://ifebres.gitlab.yandexcloud.net/
+![img.png](img/gitlab.png)
+Gitlab Runner задеплоим в Kubernetes при помощи helm, используя  [runner.yaml](cicd%2Frunner.yaml)
 
-Цель:
-
-1. Автоматическая сборка docker образа при коммите в репозиторий с тестовым приложением.
-2. Автоматический деплой нового docker образа.
-
-Можно использовать [teamcity](https://www.jetbrains.com/ru-ru/teamcity/), [jenkins](https://www.jenkins.io/), [GitLab CI](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/) или GitHub Actions.
 
 Ожидаемый результат:
 
