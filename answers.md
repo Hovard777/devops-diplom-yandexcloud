@@ -58,6 +58,7 @@
 Воспользуемся Yandex Managed Service for GitLab. Интерфейс доступен по адресу https://ifebres.gitlab.yandexcloud.net/
 ![img.png](img/gitlab.png)
 Gitlab Runner задеплоим в Kubernetes при помощи helm, используя  [runner.yaml](cicd%2Frunner.yaml)
+CI/CD настроим в Gitlab, используя конфиг [gitlab-ci.yaml](cicd%2Fgitlab-ci.yaml)
 
 
 Ожидаемый результат:
@@ -76,4 +77,12 @@ Gitlab Runner задеплоим в Kubernetes при помощи helm, исп�
 5. Репозиторий с конфигурацией Kubernetes кластера.
 6. Ссылка на тестовое приложение и веб интерфейс Grafana с данными доступа.
 7. Все репозитории рекомендуется хранить на одном ресурсе (github, gitlab)
+
+Доп материалы  
+CI/CD:
+- https://yandex.cloud/ru/docs/tutorials/infrastructure-management/gitlab-containers?utm_referrer=https%3A%2F%2Fwww.google.com%2F
+- https://cloud.vk.com/blog/launching-a-project-in-kubernetes
+- https://cloud.vk.com/blog/proekt-na-kubernetes-v-mailru-cloud-solutions-chast-3
+- https://cloud.vk.com/docs/cases/cases-gitlab/case-k8s-app
+- https://gitlab.com/nhsbsa/platform-services/pipeline-templates/kaniko/-/blob/main/kaniko-job.gitlab-ci.yml?ref_type=heads
 
