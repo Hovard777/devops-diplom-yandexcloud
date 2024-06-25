@@ -1,0 +1,42 @@
+stages:
+  - build
+#  - deploy
+
+variables:
+  CI_REGISTRY: docker.io
+  CI_PROJECT_PATH: hovard777/diplom
+  TAG: 123
+
+
+build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  before_script:
+    - |
+      if [[ ! -z $DOCKER_HUB_WRITE_TOKEN ]]; then
+        echo "Authenticating with DOCKER_HUB_WRITE_TOKEN"
+        DOCKER_HUB_AUTH=`echo -n $REGISTRY_USER:$DOCKER_HUB_WRITE_TOKEN | base64 -w 0`
+      fi
+    - |
+      mkdir -p /kaniko/.docker && \
+      cat > /kaniko/.docker/config.json << EOT
+      {
+        "auths": {
+          "https://index.docker.io/v1/": {
+            "auth": "$DOCKER_HUB_AUTH"
+          }
+        }
+      }
+      EOT
+  script:
+    - cat /kaniko/.docker/config.json
+    - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile" --destination ${CI_PROJECT_PATH}:${CI_COMMIT_SHORT_SHA}
+
+#deploy:
+#  image: gcr.io/cloud-builders/kubectl:latest
+#  stage: deploy
+#  script:
+#    - sed -i "s,__VERSION__,${TAG}," app.yaml
+#    - kubectl apply -f app.yaml
