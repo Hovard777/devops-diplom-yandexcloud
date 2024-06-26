@@ -78,6 +78,8 @@ CI/CD настроим в Gitlab, используя конфиг [gitlab-ci.yam
 
 ![img.png](img/app-2.png)
 
+---
+
 ### Настройка CI/CD Terraform
 Для настройки CI/CD используется Gitlab.
 Создан отдельный репозиторий ```diplom-tf``` https://ifebres.gitlab.yandexcloud.net/ifebres/diplom-tf
@@ -97,16 +99,8 @@ CI/CD настроим в Gitlab, используя конфиг [gitlab-ci.yam
 ![img.png](img/ci-cd-tf-apply.png)
 
 
-## Что необходимо для сдачи задания?
 
-1. Репозиторий с конфигурационными файлами Terraform и готовность продемонстрировать создание всех ресурсов с нуля.
-2. Пример pull request с комментариями созданными atlantis'ом или снимки экрана из Terraform Cloud или вашего CI-CD-terraform pipeline.
-3. Репозиторий с конфигурацией ansible, если был выбран способ создания Kubernetes кластера при помощи ansible.
-4. Репозиторий с Dockerfile тестового приложения и ссылка на собранный docker image.
-5. Репозиторий с конфигурацией Kubernetes кластера.
-6. Ссылка на тестовое приложение и веб интерфейс Grafana с данными доступа.
-7. Все репозитории рекомендуется хранить на одном ресурсе (github, gitlab)
-
+---
 Доп материалы  
 CI/CD:
 - https://yandex.cloud/ru/docs/tutorials/infrastructure-management/gitlab-containers?utm_referrer=https%3A%2F%2Fwww.google.com%2F
