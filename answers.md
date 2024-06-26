@@ -27,8 +27,8 @@
 
 #### Установка Kubernetes кластера на ВМ.  
    Для установки кластера будет использован [Kubespray](https://kubernetes.io/docs/setup/production-environment/tools/kubespray/). Заполняем файл  [hosts.yaml](ansible%2Fhosts.yaml) на основании адресов созданной инфраструктуры. 
-   В файле [k8s-cluster.yml](ansible%2Fgroup_vars%2Fk8s_cluster%2Fk8s-cluster.yml) выставляем параметр ```kubeconfig_localhost: true``` для сохранения kubeconfig в каталог ./artifacts  
-   Запускаем создание кластера используя [hosts.yaml](ansible%2Fhosts.yaml) в качестве inventory файла. По завершении установки копируем содержимое файла ./artifacts/admin.conf в файл ~/.kube/config, проверяем подключение к кластеру
+   В файле [k8s-cluster.yml](ansible%2Fgroup_vars%2Fk8s_cluster%2Fk8s-cluster.yml) выставляем параметр ```kubeconfig_localhost: true``` для сохранения kubeconfig в каталог ```./artifacts ``` 
+   Запускаем создание кластера используя [hosts.yaml](ansible%2Fhosts.yaml) в качестве inventory файла. По завершении установки копируем содержимое файла ```./artifacts/admin.conf``` в файл ```~/.kube/config```, проверяем подключение к кластеру
     
 ![img.png](img/k8s_cluster.png)
   
@@ -46,9 +46,15 @@
 ### Подготовка cистемы мониторинга и деплой приложения
 
 Задеплоил систему мониторинга, используя пакет ```kube-prometheus```. 
-Для настройки доступа к Grafana сконфигурируем service [grafana-service.yaml](monitoring%2Fmanifests%2Fgrafana-service.yaml) и [grafana-networkPolicy.yaml](monitoring%2Fmanifests%2Fgrafana-networkPolicy.yaml)
+Для настройки доступа к Grafana сконфигурируем service [grafana-service.yaml](monitoring%2Fmanifests%2Fgrafana-service.yaml) и [grafana-networkPolicy.yaml](monitoring%2Fmanifests%2Fgrafana-networkPolicy.yaml)  
+Ссылка на Grafana http://158.160.33.137:31000/d/efa86fd1d0c121a26444b636a3f509a8/kubernetes-compute-resources-cluster?orgId=1&refresh=10s  
+Доступ admin/admin
+
+
 ![img.png](img/grafana.png)
 Используя манифест [app.yaml](app%2Fapp.yaml), задеплоил приложение. ```kubectl apply -f  app.yaml```
+Ссылка на приложение http://158.160.33.137:30082/  
+
 ![img.png](img/app.png)
 
 
