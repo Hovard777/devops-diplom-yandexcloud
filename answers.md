@@ -27,7 +27,7 @@
 
 #### Установка Kubernetes кластера на ВМ.  
    Для установки кластера будет использован [Kubespray](https://kubernetes.io/docs/setup/production-environment/tools/kubespray/). Заполняем файл  [hosts.yaml](ansible%2Fhosts.yaml) на основании адресов созданной инфраструктуры. 
-   В файле [k8s-cluster.yml](ansible%2Fgroup_vars%2Fk8s_cluster%2Fk8s-cluster.yml) выставляем параметр ```kubeconfig_localhost: true``` для сохранения kubeconfig в каталог ./artifacts
+   В файле [k8s-cluster.yml](ansible%2Fgroup_vars%2Fk8s_cluster%2Fk8s-cluster.yml) выставляем параметр ```kubeconfig_localhost: true``` для сохранения kubeconfig в каталог ./artifacts  
    Запускаем создание кластера используя [hosts.yaml](ansible%2Fhosts.yaml) в качестве inventory файла. По завершении установки копируем содержимое файла ./artifacts/admin.conf в файл ~/.kube/config, проверяем подключение к кластеру
     
 ![img.png](img/k8s_cluster.png)
@@ -45,7 +45,7 @@
 ---
 ### Подготовка cистемы мониторинга и деплой приложения
 
-Задеплоил систему мониторинга, используя пакет kube-prometheus. 
+Задеплоил систему мониторинга, используя пакет ```kube-prometheus```. 
 Для настройки доступа к Grafana сконфигурируем service [grafana-service.yaml](monitoring%2Fmanifests%2Fgrafana-service.yaml) и [grafana-networkPolicy.yaml](monitoring%2Fmanifests%2Fgrafana-networkPolicy.yaml)
 ![img.png](img/grafana.png)
 Используя манифест [app.yaml](app%2Fapp.yaml), задеплоил приложение. ```kubectl apply -f  app.yaml```
@@ -58,11 +58,14 @@
 Воспользуемся Yandex Managed Service for GitLab. Интерфейс доступен по адресу https://ifebres.gitlab.yandexcloud.net/
 ![img.png](img/gitlab.png)
 Создадим проект ```diplom-app``` https://ifebres.gitlab.yandexcloud.net/ifebres/diplom-app  
-Gitlab Runner задеплоим в Kubernetes при помощи helm, используя  [runner.yaml](cicd%2Frunner.yaml)
-CI/CD настроим в Gitlab, используя конфиг [gitlab-ci.yaml](cicd%2Fgitlab-ci.yaml)
+Gitlab Runner задеплоим в Kubernetes при помощи helm, используя  [runner.yaml](cicd%2Frunner.yaml)  
+CI/CD настроим в Gitlab, используя конфиг [gitlab-ci.yaml](cicd%2Fgitlab-ci.yaml)  
 Для взаимодействия с dockerhub выпустим токен и добавим в Gitlab.  
-Для взаимодействия с k8s добавим в переменную KUBECONFIG содержимое файла ~./kube/config и выставим тип File.
-При любом коммите собирается новый образ, отправляется в репозиторий и деплоится в k8s.
+Для взаимодействия с k8s добавим в переменную ```KUBECONFIG``` содержимое файла ```~./kube/config``` и выставим тип File.  
+При любом коммите собирается новый образ, отправляется в репозиторий и деплоится в k8s.  
+
+![img.png](img/ci-cd-pipeline.png)
+
 ![img.png](img/ci-cd.png)
 
 ![img.png](img/ci-cd-registry.png)
@@ -76,6 +79,9 @@ CI/CD настроим в Gitlab, используя конфиг [gitlab-ci.yam
 В переменные добавлены ```access file, access_key, secret_key```
 При любом коммите происходит валидация terraform, затем terraform plan с подготовкой файла для выполнеия terraform apply.
 Применение изменений происходит по кнопке.
+
+![img.png](img/ci-cd-tf-pipeline-all.png)
+
 ![img.png](img/ci-cd-terraform-pipeline.png)
 
 ![img.png](img/ci-cd-tf-validate.png)
