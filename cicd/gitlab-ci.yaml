@@ -1,6 +1,6 @@
 stages:
   - build
-#  - deploy
+  - deploy
 
 variables:
   CI_REGISTRY: docker.io
@@ -34,9 +34,14 @@ build:
     - cat /kaniko/.docker/config.json
     - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile" --destination ${CI_PROJECT_PATH}:${CI_COMMIT_SHORT_SHA}
 
-#deploy:
-#  image: gcr.io/cloud-builders/kubectl:latest
-#  stage: deploy
-#  script:
-#    - sed -i "s,__VERSION__,${TAG}," app.yaml
-#    - kubectl apply -f app.yaml
+
+deploy:
+  image: bitnami/kubectl:1.20
+  stage: deploy
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+
+  script:
+    - kubectl get pods -n application
+    - sed -i "s,__VERSION__,${CI_COMMIT_SHORT_SHA}," app.yaml
+    - kubectl apply -f app.yaml
