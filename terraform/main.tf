@@ -9,7 +9,7 @@ terraform {
   backend "s3" {
     endpoint = "storage.yandexcloud.net"
     region     = "ru-central1-a"
-    bucket   = "ifebres-state-bucket"
+    bucket   = "ifebres-tfstate"
     key        = "tf-state/main.tfstate"
 
     skip_region_validation      = true

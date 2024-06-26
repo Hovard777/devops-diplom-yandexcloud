@@ -57,6 +57,7 @@
 
 Воспользуемся Yandex Managed Service for GitLab. Интерфейс доступен по адресу https://ifebres.gitlab.yandexcloud.net/
 ![img.png](img/gitlab.png)
+Создадим проект ```diplom-app``` https://ifebres.gitlab.yandexcloud.net/ifebres/diplom-app  
 Gitlab Runner задеплоим в Kubernetes при помощи helm, используя  [runner.yaml](cicd%2Frunner.yaml)
 CI/CD настроим в Gitlab, используя конфиг [gitlab-ci.yaml](cicd%2Fgitlab-ci.yaml)
 Для взаимодействия с dockerhub выпустим токен и добавим в Gitlab.  
@@ -67,6 +68,21 @@ CI/CD настроим в Gitlab, используя конфиг [gitlab-ci.yam
 ![img.png](img/ci-cd-registry.png)
 
 ![img.png](img/app-2.png)
+
+### Настройка CI/CD Terraform
+Для настройки CI/CD используется Gitlab.
+Создан отдельный репозиторий ```diplom-tf``` https://ifebres.gitlab.yandexcloud.net/ifebres/diplom-tf
+В нём размещены файлы terraform и [.gitlab-ci.yml](terraform%2F.gitlab-ci.yml)
+В переменные добавлены ```access file, access_key, secret_key```
+При любом коммите происходит валидация terraform, затем terraform plan с подготовкой файла для выполнеия terraform apply.
+Применение изменений происходит по кнопке.
+![img.png](img/ci-cd-terraform-pipeline.png)
+
+![img.png](img/ci-cd-tf-validate.png)
+
+![img.png](img/ci-cd-tf-plan.png)
+
+![img.png](img/ci-cd-tf-apply.png)
 
 
 ## Что необходимо для сдачи задания?
@@ -86,4 +102,6 @@ CI/CD:
 - https://cloud.vk.com/blog/proekt-na-kubernetes-v-mailru-cloud-solutions-chast-3
 - https://cloud.vk.com/docs/cases/cases-gitlab/case-k8s-app
 - https://gitlab.com/nhsbsa/platform-services/pipeline-templates/kaniko/-/blob/main/kaniko-job.gitlab-ci.yml?ref_type=heads
+CI/CD Terraform:
+- https://www.youtube.com/watch?v=U58zSIvgyDI
 
