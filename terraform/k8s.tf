@@ -2,7 +2,7 @@
 #Master node
 
 resource "yandex_compute_instance_group" "control-plane" {
-  name                = "k8s-control-plane"
+  name                = local.master-instance-group-name
   folder_id           = var.folder_id
   service_account_id  = data.yandex_iam_service_account.diplom.id
   deletion_protection = false # защита_от_удаления:_true_или_false
@@ -11,17 +11,17 @@ resource "yandex_compute_instance_group" "control-plane" {
     platform_id = "standard-v2"
     name        = "master-{instance.index}"
     resources {
-      memory = 2 # объем_RAM_в_ГБ
-      cores  = 2 # количество_ядер_vCPU
-      core_fraction = 20 # базовая  производительность в процентах
+      memory = local.master_memory 
+      cores  = local.master_cores 
+      core_fraction = local.master_core_fraction 
     }
 
     boot_disk {
       mode = "READ_WRITE"
       initialize_params {
         image_id = "fd81n0sfjm6d5nq6l05g"
-        size     = 20
-        type     = "network-hdd"
+        size     = local.master_disk_size
+        type     = local.master_disk_type
       }
     }
 
@@ -39,15 +39,15 @@ resource "yandex_compute_instance_group" "control-plane" {
   }
   scale_policy {
     fixed_scale {
-      size = 1 # количество_ВМ_в_группе
+      size = local.master_group_size 
     }
   }
 
   allocation_policy {
     zones = [
-      "ru-central1-a",
-      "ru-central1-b",
-      "ru-central1-d"
+      local.zone-1,
+      local.zone-2,
+      local.zone-3
     ]
   }
   deploy_policy {
@@ -59,7 +59,7 @@ resource "yandex_compute_instance_group" "control-plane" {
 
 #Worker nodes
 resource "yandex_compute_instance_group" "worker-nodes" {
-  name                = "k8s-workers"
+  name                = local.worker-instance-group-name
   folder_id           = var.folder_id
   service_account_id  = data.yandex_iam_service_account.diplom.id
   deletion_protection = false # защита_от_удаления:_true_или_false
@@ -68,17 +68,17 @@ resource "yandex_compute_instance_group" "worker-nodes" {
     platform_id = "standard-v2"
     name        = "worker-{instance.index}"
     resources {
-      memory = 2 # объем_RAM_в_ГБ
-      cores  = 2 # количество_ядер_vCPU
-      core_fraction = 20 # базовая  производительность в процентах
+      memory = local.worker_cores # объем_RAM_в_ГБ
+      cores  = local.worker_memory # количество_ядер_vCPU
+      core_fraction = local.worker_core_fraction # базовая  производительность в процентах
     }
 
     boot_disk {
       mode       = "READ_WRITE"
       initialize_params {
         image_id = "fd81n0sfjm6d5nq6l05g"
-        size     = "20"
-        type     = "network-hdd"
+        size     = local.worker_disk_size"
+        type     = local.worker_disk_type
       }
     }
 
@@ -96,15 +96,15 @@ resource "yandex_compute_instance_group" "worker-nodes" {
   }
   scale_policy {
     fixed_scale {
-      size = 3 # количество_ВМ_в_группе
+      size = local.worker_group_size # количество_ВМ_в_группе
     }
   }
 
   allocation_policy {
     zones = [
-      "ru-central1-a",
-      "ru-central1-b",
-      "ru-central1-d"
+      local.zone-1,
+      local.zone-2,
+      local.zone-3
     ]
   }
 

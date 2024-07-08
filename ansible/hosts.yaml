@@ -9,19 +9,16 @@ all:
     worker-1:
       ansible_host: 158.160.33.137
       ip: 192.168.10.24
-      # access_ip: 158.160.117.200
       ansible_user: ifebres
 
     worker-2:
       ansible_host: 51.250.97.12
       ip: 192.168.20.23
-      # access_ip: 158.160.52.213
       ansible_user: ifebres
 
     worker-3:
       ansible_host: 158.160.156.165
       ip: 192.168.30.22
-      # access_ip: 158.160.52.213
       ansible_user: ifebres
 
   children:
