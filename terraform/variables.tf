@@ -14,34 +14,27 @@ data "yandex_iam_service_account" "diplom" {
  # description = "Service account for manage instances"
 }
 
+variable "network_name" {
+  description = "Base name for the network"
+  type        = string
+  default     = "my-network"
+}
+
+variable "num_subnets" {
+  description = "Number of subnets to create"
+  type        = number
+  default     = 3
+}
+
+variable "zones" {
+  description = "List of zones"
+  type        = list(string)
+  default     = ["ru-central1-a", "ru-central1-b", "ru-central1-c"]
+}
+
+
 locals {
-  network_name  = "diplom_network"
-  subnet-1  = "subnet-pub-1"
-  subnet-2  = "subnet-pub-1"
-  subnet-3  = "subnet-pub-1"
-  
-  zone-1        = "ru-central1-a"
-  zone-2        = "ru-central1-b"
-  zone-3        = "ru-central1-d"
-
-  master-instance-group-name = "k8s-control-plane"
-  
-  master_cores  = 2 # количество_ядер_vCPU
-  master_memory = 2 # объем_RAM_в_ГБ
-  master_core_fraction = 20 # базовая  производительность в процентах
-  master_disk_size = 20
-  master_disk_type = "network-sdd"
-  master_group_size = 1 # количество_ВМ_в_группе
-
-  worker-instance-group-name = "k8s-workers"
-
-  worker_cores = 2
-  worker_memory = 2
-  worker_core_fraction = 100
-  worker_disk_size = 20
-  worker_disk_type = "network-hdd"
-  worker_group_size = 3
-  
+  subnet_cidrs = [for i in range(var.num_subnets) : "192.168.${i + 1}.0/24"]
 }
 
 
